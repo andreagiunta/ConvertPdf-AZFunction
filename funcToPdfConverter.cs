@@ -65,7 +65,15 @@ namespace AnGiunta.DocToPdf
             await containerClient.CreateIfNotExistsAsync();
             
             if(string.IsNullOrEmpty(fileName)) fileName = "converted" + Guid.NewGuid().ToString() + ".pdf";
-            logger.LogInformation($"filename:{fileName}");
+            else 
+            {
+                var splitted = fileName.Split('.');
+                fileName="";
+                for(int i=0; i<splitted.Length-1;i++)
+                    fileName+=splitted[i];
+                fileName+=".pdf";
+            }
+                logger.LogInformation($"filename:{fileName}");
 
             // Get a reference to a blob
             return containerClient.GetBlobClient(fileName);
